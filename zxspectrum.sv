@@ -23,6 +23,9 @@
 module zxspectrum
 (
 	input         CLOCK_27,
+`ifdef USE_CLOCK_50
+	input         CLOCK_50,
+`endif
 
 	output        LED,
 	output [VGA_BITS-1:0] VGA_R,
@@ -244,7 +247,11 @@ wire locked;
 
 pll pll
 (
+`ifdef CLOCK_IN_50
+	.inclk0(CLOCK_50),
+`else
 	.inclk0(CLOCK_27),
+`endif
 	.c0(SDRAM_CLK),
 	.c1(clk_sys),
 `ifdef USE_HDMI
